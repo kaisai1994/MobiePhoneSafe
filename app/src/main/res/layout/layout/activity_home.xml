@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="功能列表"
+        android:background="#8866ff00"
+        android:gravity="center_horizontal"
+        android:textSize="22sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
+    <phonesafe.kagura.com.mobiephonesafe.ui.HomeTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="手机卫士,真64杀毒引擎,超神速度,打开7次可以召唤神龙,辅助杀毒!!!"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        />
+    <GridView
+        android:id="@+id/gv_home_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="3"
+        android:verticalSpacing="10dp"
+        android:layout_marginTop="20dp">
+    </GridView>
+</LinearLayout>
