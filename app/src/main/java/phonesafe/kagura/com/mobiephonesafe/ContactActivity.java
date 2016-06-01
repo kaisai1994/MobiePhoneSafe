@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import phonesafe.kagura.com.mobiephonesafe.engine.ContactEngine;
+import phonesafe.kagura.com.mobiephonesafe.utils.MyAsycnTaks;
 
 public class ContactActivity extends AppCompatActivity {
 
@@ -41,7 +42,7 @@ public class ContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
         ViewUtils.inject(this);
-
+        /**
         //在加载数据之前显示进度条
         loading.setVisibility(View.VISIBLE);
         new Thread(){
@@ -54,6 +55,65 @@ public class ContactActivity extends AppCompatActivity {
         }.start();
 
         //lv_contact_contacts = (ListView) findViewById(R.id.lv_contact_contacts);
+        */
+        new MyAsycnTaks()
+        {
+            @Override
+            public void preTask() {
+                loading.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void doinBack() {
+                list = ContactEngine.getAllContactInfo(getApplicationContext());
+            }
+
+            @Override
+            public void postTask() {
+                lv_contact_contacts.setAdapter(new Myadapter());
+                //数据显示完成,隐藏进度条
+                loading.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void execute() {
+                super.execute();
+            }
+        }.execute();
+
+      /*//参数:提高扩展性
+		//参数1:子线程执行所需的参数
+		//参数2:执行的进度
+		//参数3:子线程执行的结果
+		//异步加载框架:面试必问,手写异步加载框架,百度面试题:当他执行到多少个操作的时候就和new一个线程没区别了,5个
+		new AsyncTask<String, Integer, String>(){
+
+			//子线程之前执行的方法
+			@Override
+			protected void onPreExecute() {
+				// TODO Auto-generated method stub
+				super.onPreExecute();
+			}
+			//在子线程之中执行的方法
+			@Override
+			protected String doInBackground(String... params) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			//在子线程之后执行的方法
+			@Override
+			protected void onPostExecute(String result) {
+				// TODO Auto-generated method stub
+				super.onPostExecute(result);
+			}
+			//显示当前加载的进度
+			@Override
+			protected void onProgressUpdate(Integer... values) {
+				// TODO Auto-generated method stub
+				super.onProgressUpdate(values);
+			}
+
+		};*/
 
         lv_contact_contacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

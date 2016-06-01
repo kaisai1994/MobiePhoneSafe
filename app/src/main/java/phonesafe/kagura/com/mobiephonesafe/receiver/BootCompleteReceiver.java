@@ -21,16 +21,16 @@ public class BootCompleteReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         System.out.println("手机重启了");
-        SharedPreferences sp = context.getSharedPreferences("config",Context.MODE_PRIVATE);
-        String sp_sim = sp.getString("sim","");
-        TelephonyManager tel = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String sim = tel.getSimSerialNumber();
-        if(!TextUtils.isEmpty(sp_sim)&&!TextUtils.isEmpty(sim))
-        {
-            if(!sp_sim.equals(sim))
-            {
-                SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage("5556",null,"HELP ME",null,null);
+        SharedPreferences sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+        if (sp.getBoolean("protected", false)) {
+            String sp_sim = sp.getString("sim", "");
+            TelephonyManager tel = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            String sim = tel.getSimSerialNumber();
+            if (!TextUtils.isEmpty(sp_sim) && !TextUtils.isEmpty(sim)) {
+                if (!sp_sim.equals(sim)) {
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage("5556", null, "HELP ME", null, null);
+                }
             }
         }
     }
