@@ -3,8 +3,11 @@ package phonesafe.kagura.com.mobiephonesafe.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.telephony.SmsMessage;
 
+import phonesafe.kagura.com.mobiephonesafe.R;
 import phonesafe.kagura.com.mobiephonesafe.service.GPSService;
 
 /**
@@ -17,6 +20,7 @@ import phonesafe.kagura.com.mobiephonesafe.service.GPSService;
  * @updatedes ${TODO}
  */
 public class SmsReceiver extends BroadcastReceiver {
+    private static MediaPlayer mediaPlayer;
     @Override
     public void onReceive(Context context, Intent intent) {
         System.out.println("收到短信");
@@ -42,6 +46,15 @@ public class SmsReceiver extends BroadcastReceiver {
             }else if("#*alarm*#".equals(body)){
                 //播放报警音乐
                 System.out.println("播放报警音乐");
+                AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
+                if (mediaPlayer!=null) {
+                    mediaPlayer.release();//释放资源
+                }
+                mediaPlayer = MediaPlayer.create(context, R.raw.ylzs);
+                //mediaPlayer.setVolume(1.0f, 1.0f);//设置最大音量,音量比例
+                //mediaPlayer.setLooping(true);
+                mediaPlayer.start();
                 abortBroadcast();//拦截操作,原生android系统,国产深度定制系统中屏蔽,比如小米
             }else if("#*wipedata*#".equals(body)){
                 //远程删除数据
